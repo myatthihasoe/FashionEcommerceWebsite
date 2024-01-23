@@ -18,7 +18,7 @@ if (isset($_POST['edit'])) {
 
 if (isset($_POST['delete'])) {
     $id = $_POST['id'];
-    header("Location:DeleteProducts.php?id=$id");
+    header("Location:DeleteProduct.php?id=$id");
 }
 
 ?>
@@ -32,6 +32,7 @@ if (isset($_POST['delete'])) {
 </head>
 
 <body>
+    
     <div class="container bootstrap snippets bootdey" style="margin-top: 10px" ;>
         <a href="CreateProducts.php" class="btn btn-primary my-2" style="color: white;">Create</a>
     </div>
@@ -74,27 +75,24 @@ if (isset($_POST['delete'])) {
                                         <td><?= $product['product_description'] ?></td>
                                         <td><?= $product['product_image'] ?></td>
                                         <td>
-                                            <form method="POST"></form>
-                                            <input type="hidden" value=<?= $product['product_id'] ?> name="id">
-
-                                            <!-- <button class="btn" name="edit"><i class="fas fa-edit"></i>Update</button> -->
-
-                                            <!-- <button class="action-list" name="edit" tittle="edit"><i class="fa fa-edit"></i></button></li>
-                                            <button class="action-list" name="delete" tittle="delete"><i class="fa fa-trash"></i></button></li> -->
-                                            <ul class="action-list">
-                                                <li><a name="edit" data-tip="edit"><i class="fa fa-edit"></i></a></li>
-                                                <li><a name="delete" data-tip="delete"><i class="fa fa-trash"></i></a></li>
-                                            </ul>
-
+                                            <form method="POST">
+                                                <input type="hidden" value=<?= $product['product_id'] ?> name="id">
+                                                <button class="btn" name="edit"><i class="fas fa-edit"></i>Edit</button>
+                                                <button class="btn" name="delete"><i class="fa-solid fa-trash"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </body>
+
+<!-- <ul class="action-list">
+    <li><a class="btn" name="edit" data-tip="edit"><i class="fa fa-edit"></i></a></li>
+    <li><a class="btn" name="delete" data-tip="delete"><i class="fa fa-trash"></i></a></li>
+</ul> -->
