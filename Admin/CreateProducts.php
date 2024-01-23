@@ -6,7 +6,7 @@ require_once("../Database/Connect.php");
 function getImage()
 {
     //get image path to store in database
-    $imgPath =  "../Images/" . $_FILES['image']['name'];
+    $imgPath =  "../img/" . $_FILES['image']['name'];
     //move chosen image full path into project images/folder
     $isUploaded = move_uploaded_file($_FILES['image']['tmp_name'], $imgPath);
     return $isUploaded ? $imgPath : ""; //insert empty in database
@@ -25,7 +25,7 @@ if (isset($_POST['create'])) {
     $create_product = "INSERT INTO products VALUES ('','$name','$cat','$price','$stock','$description','$img')";
     try {
         $pdo->exec($create_product);
-        header("Location: CreateProduct.php ? isCreated = ok");
+        header("Location: CreateProducts.php ? isCreated = ok");
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
@@ -41,7 +41,7 @@ if (isset($_POST['create'])) {
 
 <!-- Html Code  -->
 <div class="container bootstrap snippets bootdey" style="margin-top: 10px" ;>
-    <a href="ViewProducts.php" class="btn btn-outline-success">Home</a>
+    <a href="ViewProducts.php" class="btn btn-outline-success">View Products</a>
 </div>
 <div class="container mt-3 py-3 bg-danger text-light">
     <span class="text-danger"><?php echo (isset($_GET['isCreated'])) ? "product is created." : null ?></span>
@@ -84,7 +84,7 @@ if (isset($_POST['create'])) {
         </div>
 
         <button class="btn btn-outline-dark text-light" name="create">Create</button>
-        <a href="CreateProduct.php" class="btn btn-outline-dark text-light">Refresh</a>
+        <a href="CreateProducts.php" class="btn btn-outline-dark text-light">Refresh</a>
         <button class="btn btn-outline-light" type="reset">Clear</button>
     </form>
 
