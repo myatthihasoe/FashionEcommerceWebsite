@@ -1,7 +1,7 @@
 <?php
 require_once("../Style/Head.php");
 require_once("../Database/Connect.php");
-// require_once("../Database/CreateTable.php");
+
 
 function getImage()
 {
@@ -39,8 +39,12 @@ if (isset($_POST['create'])) {
 }
 ?>
 
+<head>
+    <link rel="stylesheet" href="../css/CreateProduct.css">
+</head>
+
 <!-- Html Code  -->
-<div class="container bootstrap snippets bootdey" style="margin-top: 10px" ;>
+<!-- <div class="container bootstrap snippets bootdey" style="margin-top: 10px" ;>
     <a href="ViewProducts.php" class="btn btn-outline-success">View Products</a>
 </div>
 <div class="container mt-3 py-3 bg-danger text-light">
@@ -88,7 +92,7 @@ if (isset($_POST['create'])) {
         <button class="btn btn-outline-light" type="reset">Clear</button>
     </form>
 
-    <!-- script code for product image  -->
+    
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const image = document.getElementById("image");
@@ -108,4 +112,95 @@ if (isset($_POST['create'])) {
             })
         });
     </script>
+</div> -->
+
+
+<div class="form-body">
+    <div class="row">
+        <div class="form-holder">
+            <div class="form-content">
+                <div class="form-items">
+                    <h3>Create Products</h3>
+                    <!-- <p>Fill in the data below.</p> -->
+                    <span class="text-danger"><?php echo (isset($_GET['isCreated'])) ? "product is created." : null ?></span>
+                    <!-- <form class="requires-validation" novalidate> -->
+                    <form method="POST" enctype="multipart/form-data" class="requires-validation" novalidate>
+                        <div class="mb-3">
+                            <img id="imageView" style="width: 150px; height: 150px; object-fit: contain;" class="bg-light mb-2">
+                            <br>
+                            <input type="file" id="image" name="image">
+                        </div>
+                        <div class="col-md-12">
+                            <!-- <label for="productName" class="form-label">Product Name</label> -->
+                            <input type="text" class="form-control" id="productName" name="productName" placeholder="Enter Product Name" required>
+                            <div class="valid-feedback">Product name is valid!</div>
+                            <div class="invalid-feedback">Product name field cannot be blank!</div>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+
+                            <select class="form-control mt3" name="productCat" id="productCat" placeholder="Select Category" required>
+                                <?php
+                                $categories =  "SELECT * from category"; //condition par lar may yan (on category.id = products.category_id)
+                                $stmt = $pdo->query($categories);
+                                foreach ($cat = $stmt->fetchAll(PDO::FETCH_ASSOC) as $each) :
+                                ?>
+                                    <option value="<?php echo $each['id'] ?>">
+                                        <?php echo $each['Category'] ?>
+                                    </option>
+                                <?php endforeach ?>
+                            </select>
+
+                            <div class="valid-feedback">You selected a category!</div>
+                            <div class="invalid-feedback">Please select a category!</div>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <!-- <label for="productPrice" class="form-label">Product Price</label> -->
+                            <input type="number" step="0.01" min="1" class="form-control" id="productPrice" name="productPrice" placeholder="Enter Pice" required>
+                            <div class="valid-feedback">Price field is valid!</div>
+                            <div class="invalid-feedback">Price field cannot be blank!</div>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <!-- <label for="productStock" class="form-label">Product Stock</label> -->
+                            <input type="number" class="form-control" id="productStock" name="productStock" placeholder="Enter Product Stock" required>
+                            <div class="valid-feedback">Stock field is valid!</div>
+                            <div class="invalid-feedback">Stock field cannot be blank!</div>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <!-- <label for="productDes" class="form-label">Product Description</label> -->
+                            <textarea type="text" class="form-control"  id="productDes" name="productDes" placeholder="Enter Product Description"></textarea>
+                        </div>
+                   
+                        <button class="btn btn-outline-light text-light" id="create" name="create">Create</button>
+                        <a href="CreateProducts.php" class="btn btn-outline-light text-light">Refresh</a>
+                        <button class="btn btn-outline-light" type="reset">Clear</button>
+
+                        <a href="ViewProducts.php" class="btn btn-outline-light" style="text-align: right;">Back to View Products</a>
+                        
+                    </form>
+
+                    <script>
+                        (function() {
+                            'use strict'
+                            const forms = document.querySelectorAll('.requires-validation')
+                            Array.from(forms)
+                                .forEach(function(form) {
+                                    form.addEventListener('create', function(event) {
+                                        if (!form.checkValidity()) {
+                                            event.preventDefault()
+                                            event.stopPropagation()
+                                        }
+
+                                        form.classList.add('was-validated')
+                                    }, false)
+                                })
+                        })()
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

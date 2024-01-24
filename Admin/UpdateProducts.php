@@ -19,7 +19,7 @@ function getImage()
 }
 
 if (isset($_POST['update'])) {
-    echo "update clicked";//Proceed
+    echo "update clicked";
     $name = $_POST['pro_name'];
     $cat = $_POST['pro_category'];
     $price = $_POST['pro_price'];
@@ -27,12 +27,12 @@ if (isset($_POST['update'])) {
     $description = $_POST['pro_description'];
 
     $img = getImage();
-    echo "SELECTED image" . $img;//Proceed
+    echo "SELECTED image" . $img;
 
     //Not working
     $update_product = "UPDATE products SET 
                         product_name = '$name',
-                        product_category='$cat',
+                        category_id='$cat',
                         product_price='$price',
                         product_stock='$stock',
                         product_description='$description',
@@ -43,7 +43,8 @@ if (isset($_POST['update'])) {
         $stmt = $pdo->exec($update_product);
         header("Location: UpdateProduct.php?id=$id&success=true");
     } catch (PDOException $e) {
-        echo "<script>alert('Please Check Database. Data is not updated.')</script>";
+        // echo "<script>alert('Please Check Database. Data is not updated.')</script>";
+        echo $e->getMessage();
     }
 }
 
@@ -71,7 +72,8 @@ if (isset($_POST['delete'])) {
     <!-- <h1>ID <?= $id ?> Update Page </h1> -->
     <div class="container bootstrap snippets bootdey">
         <a href="ViewProducts.php" class="btn btn-outline-success">Home</a>
-        <h1 class="text-primary">Edit Product ID <?= $id ?></h1>
+        
+        <h1 class="alert alert-info alert-dismissable mt-2">Edit Product ID <?= $id ?></h1>
         <hr>
         <div class="row">
             <!-- left column -->
@@ -82,7 +84,7 @@ if (isset($_POST['delete'])) {
                         <!-- <input type="file" class="form-control" name="image" accept=".jpg, .png, .jpeg"> -->
                         <img id="imageView" style=" object-fit: contain;" class="avatar img-thumbnail bg-light mb-2">
                         <input type="file" id="image" name="image">
-                
+
                         <script>
                             document.addEventListener("DOMContentLoaded", () => {
                                 const image = document.getElementById("image");
@@ -107,7 +109,7 @@ if (isset($_POST['delete'])) {
 
             <!-- edit form column -->
             <div class="col-md-9 personal-info">
-                <div class="alert alert-info alert-dismissable">
+                <div class="alert alert-primary ">
                     <h3>Product ID <?= $id ?> Detail Information</h3>
                 </div>
                 <div class="form-group d-flex my-2 ">
@@ -123,9 +125,19 @@ if (isset($_POST['delete'])) {
                     </div>
                 </div>
                 <div class="form-group d-flex my-2">
-                    <label class="col-lg-3 control-label"> Catagory:</label>
+                    <label class="col-lg-3 control-label"> Category:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" type="text" value="<?= $result['product_category'] ?>" name="pro_category">
+                        <select class="form-control" name="pro_category" id="pro_category" value="<?= $result['product_category'] ?>" required>
+                            <?php
+                            $categories =  "SELECT * from category"; //condition par lar may yan (on category.id = products.category_id)
+                            $stmt = $pdo->query($categories);
+                            foreach ($cat = $stmt->fetchAll(PDO::FETCH_ASSOC) as $each) :
+                            ?>
+                                <option value="<?php echo $each['id'] ?>">
+                                    <?php echo $each['Category'] ?>
+                                </option>
+                            <?php endforeach ?>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group d-flex my-2">

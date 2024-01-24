@@ -38,7 +38,7 @@ if (isset($_POST['delete'])) {
     </div>
 
     <!-- Font awesome HTML and CSS  -->
-    <div class="container mt-2">
+    <div class="container mt-1">
         <div class="row">
             <div class="col-md-offset-1 col-md-10">
                 <div class="panel">
@@ -77,8 +77,8 @@ if (isset($_POST['delete'])) {
                                         <td>
                                             <form method="POST">
                                                 <input type="hidden" value=<?= $product['product_id'] ?> name="id">
-                                                <button class="btn" name="edit"><i class="fas fa-edit"></i>Edit</button>
-                                                <button class="btn" name="delete"><i class="fa-solid fa-trash"></i></button>
+                                                <button class="btn btn-outline-dark" name="edit"><i class="fas fa-edit"></i>Edit</button>
+                                                <button class="btn btn-outline-dark" name="delete" title="delete"><i class="fa-solid fa-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>
